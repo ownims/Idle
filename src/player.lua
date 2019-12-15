@@ -4,10 +4,12 @@ local player = {}
 function player.new( )
     local o = {}
     o.units = {}
+    o.scale = 1
     -- callbacks
 	o.draw = player.draw
     o.update = player.update
     o.spawn = player.spawn
+    o.setScale = player.setScale
     return o
 end
 
@@ -34,6 +36,9 @@ function player.spawn()
 	
 	unt = unit.new ()
 	table.insert(player.units, unt)
+end
+function player.setScale(scale)
+	self.scale = scale
 end
 
 return player

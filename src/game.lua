@@ -10,7 +10,7 @@ local height = love.graphics.getHeight()
 local MAXRESOURCE = 50
 
 local resources = {}
-
+local scale = 1
 function game.load(player)
     game.player = player or player.new()
     list = {'tree', 'rock'}
@@ -19,7 +19,6 @@ function game.load(player)
 
     for i=1,MAXRESOURCE do
         res = resource.new(list[love.math.random(1,2)])
-        print(res.name)
         table.insert(resources, res)
     end
 end
@@ -49,7 +48,6 @@ function game.keypressed(key, scancode, isrepeat)
         game.player:spawn()
     end
 end
-
 function game.keyreleased(key, scancode, isrepeat)
     
 end
