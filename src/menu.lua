@@ -1,6 +1,7 @@
 local utils = require "utils"
 local gamestate = require "gamestate"
 local player = require "player"
+local resource = require "resource"
 
 
 local menu = {}
@@ -51,6 +52,11 @@ function menu.keypressed(key, scancode, isrepeat)
     elseif key == "escape" then
         love.event.quit(0)
     end
+end
+
+function menu.resize(w, h)
+    width = love.graphics.getWidth()
+    height = love.graphics.getHeight()
 end
 
 return menu

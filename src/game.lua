@@ -5,6 +5,9 @@ local resource = require "resource"
 
 local game = {}
 
+local oldwidth = love.graphics.getWidth()
+local oldheight = love.graphics.getHeight()
+
 local width = love.graphics.getWidth()
 local height = love.graphics.getHeight()
 local MAXRESOURCE = 50
@@ -12,11 +15,20 @@ local MAXRESOURCE = 50
 local resources = {}
 local scale = 1
 function game.load(player)
+
+    if resources then
+        for k,v in ipairs(resources) do
+            resources[k].oldwidth = width
+            resources[k].oldheight = height
+            resources[k]:setScale()
+        end
+    end
     game.player = player or player.new()
     list = {'tree', 'rock'}
     --table.insert(list, 'tree')
     --table.insert(list, 'rock')
 
+    --print(0)
     for i=1,MAXRESOURCE do
         res = resource.new(list[love.math.random(1,2)])
         table.insert(resources, res)
@@ -48,6 +60,20 @@ function game.keypressed(key, scancode, isrepeat)
         game.player:spawn()
     end
 end
+
+function game.resize(w, h)
+    oldwidth = width
+    oldheight = height
+
+    width = love.graphics.getWidth()
+    height = love.graphics.getHeight()
+    if resources then
+        for k,v in ipairs(resources) do
+            resources[k]:setScale()
+        end
+    end
+end
+
 function game.keyreleased(key, scancode, isrepeat)
     
 end

@@ -6,13 +6,22 @@ local height = love.graphics.getHeight()
 function resource.new(type)
 	local o = {}
 	o.scale = 1
+	o.oldwidth = width
+	o.oldheight = height
 	o.type = type
 	o.name = type
+	o.w = 16*o.scale
+	o.h = 16*o.scale
+	o.x = love.math.random(o.w,width-o.w)
+	o.y = love.math.random(o.h,height-o.h)
+
 	o.draw = resource.draw
     o.update = resource.update
     o.setScale = resource.setScale
+    o.resize = resource.resize
     o.recalculate = resource.recalculate
 	o:recalculate(o.scale)
+	
     -- callbacks
     return o
 end
@@ -32,8 +41,17 @@ function resource:draw()
 	    love.graphics.draw(self.mesh_rock, self.x , self.y, 0)
 	end
 end
+
+function  resource.resize(w,h )
+	
+end
 function resource:setScale()
-	self.scale = love.window.getHeight()/300
+	self.oldwidth = width
+	self.oldheight = height
+	
+	width = love.graphics.getWidth()
+	height = love.graphics.getHeight()
+	self.scale = height/300
 	self:recalculate(self.scale)
 end
 function resource:recalculate(scale)
@@ -69,9 +87,13 @@ function resource:recalculate(scale)
 		}
 	self.mesh_rock = love.graphics.newMesh(self.rock, "fan", "static")
 	--end
+
+	width = love.graphics.getWidth()
+	height = love.graphics.getHeight()
 	self.w = 16*self.scale
 	self.h = 16*self.scale
-	self.x = love.math.random(self.w,width-self.w)
-	self.y = love.math.random(self.h,height-self.h)
+	self.x = (self.x / self.oldwidth) * width
+	self.y = (self.y / self.oldheight) * height
+	print(0)
 end
 return resource

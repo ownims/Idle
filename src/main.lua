@@ -10,11 +10,3 @@ function love.load()
     -- go to state menu
     gamestate.switch("menu")
 end
-function love.resize(w, h)
-	print(("Window resized to width: %d and height: %d."):format(w, h))
-    print("resize")
-    
-    for k,v in ipairs(resources) do
-        resources[k]:setScale()
-    end
-end
