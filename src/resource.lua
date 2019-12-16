@@ -6,14 +6,18 @@ local height = love.graphics.getHeight()
 function resource.new(type)
 	local o = {}
 	o.scale = 1
-	o.oldwidth = width
-	o.oldheight = height
+	o.min_w = 400
+	o.min_h = 300
 	o.type = type
 	o.name = type
-	o.w = 16*o.scale
-	o.h = 16*o.scale
-	o.x = love.math.random(o.w,width-o.w)
-	o.y = love.math.random(o.h,height-o.h)
+	o.start_w = 16
+	o.start_h = 16
+	o.start_x = love.math.random(o.start_w, o.min_w - o.start_w)
+	o.start_y = love.math.random(o.start_h, o.min_h - o.start_h)
+	o.w = o.start_w*o.scale
+	o.h = o.start_h*o.scale
+	o.x = o.start_x*o.scale
+	o.y = o.start_y*o.scale
 
 	o.draw = resource.draw
     o.update = resource.update
@@ -42,58 +46,58 @@ function resource:draw()
 	end
 end
 
-function  resource.resize(w,h )
-	
+function resource.resize(w,h)
+	self:setScale()
 end
+
 function resource:setScale()
-	self.oldwidth = width
-	self.oldheight = height
+	--self.oldwidth = width
+	--self.oldheight = height
 	
 	width = love.graphics.getWidth()
 	height = love.graphics.getHeight()
 	self.scale = height/300
 	self:recalculate(self.scale)
 end
+
 function resource:recalculate(scale)
 	self.scale = scale
-	--if o.type == 'tree' then
-	self.color_trunk = {0.68,0.36,0.17}
-	self.trunk = {
-			{6*self.scale, 15*self.scale, 0, 0, 1,1,1, 1.0},
-			{10*self.scale, 15*self.scale, 0, 0, 1,1,1, 1.0},
-			{10*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
-			{6*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
-		}
-	self.mesh_trunk = love.graphics.newMesh(self.trunk, "fan", "static")
-	self.color_leaf = {0,0.21,0.18}
-	self.leaf = {
-			{3*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
-			{12*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
-			{8*self.scale, 0*self.scale, 0, 0, 1,1,1, 1.0},
-			{7*self.scale, 0*self.scale, 0, 0, 1,1,1, 1.0},
-		}
-	self.mesh_leaf = love.graphics.newMesh(self.leaf, "fan", "static")
-	--elseif self.type == 'rock' then
-	self.color_rock = {0.38,0.38,0.38}
-	self.rock = {
-			{3*self.scale, 14*self.scale, 0, 0, 1,1,1, 1.0},
-			{11*self.scale, 14*self.scale, 0, 0, 1,1,1, 1.0},
-			{14*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
-			{14*self.scale, 10*self.scale, 0, 0, 1,1,1, 1.0},
-			{10*self.scale, 3*self.scale, 0, 0, 1,1,1, 1.0},
-			{6*self.scale, 3*self.scale, 0, 0, 1,1,1, 1.0},
-			{1*self.scale, 8*self.scale, 0, 0, 1,1,1, 1.0},
-			{1*self.scale, 12*self.scale, 0, 0, 1,1,1, 1.0},
-		}
-	self.mesh_rock = love.graphics.newMesh(self.rock, "fan", "static")
-	--end
+	if self.type == 'tree' then
+		self.color_trunk = {0.68,0.36,0.17}
+		self.trunk = {
+				{6*self.scale, 15*self.scale, 0, 0, 1,1,1, 1.0},
+				{9*self.scale, 15*self.scale, 0, 0, 1,1,1, 1.0},
+				{9*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
+				{6*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
+			}
+		self.mesh_trunk = love.graphics.newMesh(self.trunk, "fan", "static")
+		self.color_leaf = {0,0.21,0.18}
+		self.leaf = {
+				{3*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
+				{12*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
+				{8*self.scale, 0*self.scale, 0, 0, 1,1,1, 1.0},
+				{7*self.scale, 0*self.scale, 0, 0, 1,1,1, 1.0},
+			}
+		self.mesh_leaf = love.graphics.newMesh(self.leaf, "fan", "static")
+	elseif self.type == 'rock' then
+		self.color_rock = {0.38,0.38,0.38}
+		self.rock = {
+				{3*self.scale, 14*self.scale, 0, 0, 1,1,1, 1.0},
+				{11*self.scale, 14*self.scale, 0, 0, 1,1,1, 1.0},
+				{14*self.scale, 11*self.scale, 0, 0, 1,1,1, 1.0},
+				{14*self.scale, 10*self.scale, 0, 0, 1,1,1, 1.0},
+				{10*self.scale, 3*self.scale, 0, 0, 1,1,1, 1.0},
+				{6*self.scale, 3*self.scale, 0, 0, 1,1,1, 1.0},
+				{1*self.scale, 8*self.scale, 0, 0, 1,1,1, 1.0},
+				{1*self.scale, 12*self.scale, 0, 0, 1,1,1, 1.0},
+			}
+		self.mesh_rock = love.graphics.newMesh(self.rock, "fan", "static")
+	end
 
-	width = love.graphics.getWidth()
-	height = love.graphics.getHeight()
-	self.w = 16*self.scale
-	self.h = 16*self.scale
-	self.x = (self.x / self.oldwidth) * width
-	self.y = (self.y / self.oldheight) * height
-	print(0)
+	self.w = self.start_w * self.scale
+	self.h = self.start_h * self.scale
+	self.x = self.start_x * self.scale
+	self.y = self.start_y * self.scale
 end
+
 return resource

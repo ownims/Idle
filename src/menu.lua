@@ -24,6 +24,9 @@ menu.text = [[
 function menu.load(this_player)
     menu.player = player.new()
     --menu.player = this_player or player.new()
+    
+    width = love.graphics.getWidth()
+    height = love.graphics.getHeight()
 end
 
 function menu.draw()
